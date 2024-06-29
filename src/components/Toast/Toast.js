@@ -22,20 +22,25 @@ function Toast({ id, children, variant }) {
   const { dismissToast } = React.useContext(ToastContext);
   const className = `${styles.toast} ${styles[variant]}`;
   const IconComponent = ICONS_BY_VARIANT[variant];
+
   return (
     <div className={variant ? className : `${styles.toast} ${styles.notice}`}>
       <div className={styles.iconContainer}>
         <IconComponent size={24} />
       </div>
-      <p className={styles.content}>{children}</p>
+      <p className={styles.content}>
+        <VisuallyHidden>{variant} -</VisuallyHidden>
+        {children}
+      </p>
       <button
         className={styles.closeButton}
         onClick={() => {
           dismissToast(id);
         }}
+        aria-label="Dismiss message"
+        aria-live="off"
       >
         <X size={24} />
-        <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
     </div>
   );
